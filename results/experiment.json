@@ -1,0 +1,79 @@
+{
+  "cuped": {
+    "conversion": {
+      "true_ate": 0.02244699541572762,
+      "ate_raw": 0.022996232065591038,
+      "ate_adjusted": 0.02274423832681166,
+      "ate_shift": -0.0002519937387793769,
+      "correlation": 0.12881760504222137,
+      "correlation_squared": 0.016593975368813737,
+      "theta": 0.0171215179536224,
+      "variance_reduction": 0.01659397536881324,
+      "effective_sample_multiplier": 1.0168739818072974,
+      "stderr_raw": 0.0038786572612328264,
+      "stderr_adjusted": 0.003846361803351678,
+      "stderr_reduction": 0.008326453126947131,
+      "equivalent_extra_customers": 674.9592722918951
+    },
+    "engagement": {
+      "true_ate": 0.4489399083145524,
+      "ate_raw": 0.4625495147851595,
+      "ate_adjusted": 0.45168777503218127,
+      "ate_shift": -0.010861739752978217,
+      "correlation": 0.7118824462905874,
+      "correlation_squared": 0.506776617336671,
+      "theta": 0.7379924322286051,
+      "variance_reduction": 0.5067766173366706,
+      "effective_sample_multiplier": 2.027478897290221,
+      "stderr_raw": 0.030174788158392182,
+      "stderr_adjusted": 0.021130332163616424,
+      "stderr_reduction": 0.29973552580717366,
+      "equivalent_extra_customers": 41099.15589160885
+    }
+  },
+  "sizing": {
+    "detect_20pct_relative_lift": {
+      "baseline_rate": 0.005726086548390125,
+      "treatment_rate": 0.00687130385806815,
+      "absolute_mde": 0.001145217309678025,
+      "relative_mde": 0.2,
+      "alpha": 0.05,
+      "power": 0.8,
+      "n_per_arm": 74914,
+      "n_total": 149828,
+      "expected_conversions_per_arm": 428.96404768609784
+    },
+    "detect_50pct_relative_lift": {
+      "baseline_rate": 0.005726086548390125,
+      "treatment_rate": 0.008589129822585188,
+      "absolute_mde": 0.0028630432741950625,
+      "relative_mde": 0.5,
+      "alpha": 0.05,
+      "power": 0.8,
+      "n_per_arm": 13608,
+      "n_total": 27216,
+      "expected_conversions_per_arm": 77.92058575049282
+    },
+    "mde_at_hillstrom_arm_size": {
+      "baseline_rate": 0.005726086548390125,
+      "n_per_arm": 21306.0,
+      "absolute_mde": 0.0022379649228843595,
+      "relative_mde": 0.39083672661454233,
+      "detectable_treatment_rate": 0.007964051471274484,
+      "alpha": 0.05,
+      "power": 0.8
+    }
+  },
+  "validation_design": {
+    "difference_under_test": 0.0022752981282765233,
+    "baseline_for_test": 0.01253109306800582,
+    "n_per_cell": 40879.0,
+    "n_total": 81758.0,
+    "expected_conversions_per_cell": 512.2585535270099,
+    "weeks_required": 5.0,
+    "alpha": 0.05,
+    "power": 0.8,
+    "cuped_variance_reduction": 0.0
+  },
+  "baseline_rate": 0.005726086548390125
+}
