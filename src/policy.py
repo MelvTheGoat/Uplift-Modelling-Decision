@@ -263,9 +263,14 @@ def choose_policy(
     )
     n = outcome.shape[0]
 
-    best = frontier.loc[frontier["incremental_profit"].idxmax()]
-    optimal_fraction = float(best["fraction"])
-    optimal_profit = float(best["incremental_profit"])
+    # `argmax`/`argmin` on the underlying array rather than `idxmax`/`idxmin` on
+    # the frame. The pandas versions return an index *label*, which only
+    # coincides with a row position while the frame carries a default
+    # RangeIndex — true here, but `affordable` below is a filtered view, so one
+    # careless `.iloc` on a label would silently read the wrong row.
+    best = int(frontier["incremental_profit"].to_numpy().argmax())
+    optimal_fraction = float(frontier["fraction"].iloc[best])
+    optimal_profit = float(frontier["incremental_profit"].iloc[best])
 
     budget_cap_fraction = 1.0 if budget is None else min(1.0, budget / (cost_per_contact * n))
     affordable = frontier[frontier["fraction"] <= budget_cap_fraction + 1e-9]
@@ -273,9 +278,9 @@ def choose_policy(
         budget_profit = 0.0
         budget_fraction = 0.0
     else:
-        budget_row = affordable.loc[affordable["incremental_profit"].idxmax()]
-        budget_fraction = float(budget_row["fraction"])
-        budget_profit = float(budget_row["incremental_profit"])
+        best_affordable = int(affordable["incremental_profit"].to_numpy().argmax())
+        budget_fraction = float(affordable["fraction"].iloc[best_affordable])
+        budget_profit = float(affordable["incremental_profit"].iloc[best_affordable])
 
     recommended_fraction = min(optimal_fraction, budget_fraction)
     if recommended_fraction <= 0.0:
@@ -288,8 +293,8 @@ def choose_policy(
         # Both `optimal_fraction` and `budget_fraction` are read off the frontier,
         # so their minimum is always exactly a row value and this lookup is a
         # lookup rather than an approximation.
-        nearest = int((frontier["fraction"] - recommended_fraction).abs().idxmin())
-        recommended_profit = float(frontier.iloc[nearest]["incremental_profit"])
+        nearest = int((frontier["fraction"] - recommended_fraction).abs().to_numpy().argmin())
+        recommended_profit = float(frontier["incremental_profit"].iloc[nearest])
 
     treat_all_profit = float(frontier.iloc[-1]["incremental_profit"])
     random_profit = random_targeting_profit(

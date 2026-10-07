@@ -218,13 +218,15 @@ def test_bootstrap_policy_matches_the_frontier_at_the_same_depth(
     frontier = profit_frontier(
         medium.outcome, medium.treatment, medium.true_uplift, medium.spend, n_points=10
     )
-    row = frontier.iloc[int((frontier["fraction"] - 0.3).abs().idxmin())]
+    nearest = int((frontier["fraction"] - 0.3).abs().to_numpy().argmin())
+    fraction = float(frontier["fraction"].iloc[nearest])
+    expected_profit = float(frontier["incremental_profit"].iloc[nearest])
     result = bootstrap_policy(
         medium.outcome,
         medium.treatment,
         medium.true_uplift,
         medium.spend,
-        fraction=float(row["fraction"]),
+        fraction=fraction,
         n_boot=20,
     )
-    assert result["profit"] == pytest.approx(float(row["incremental_profit"]), rel=1e-6)
+    assert result["profit"] == pytest.approx(expected_profit, rel=1e-6)
