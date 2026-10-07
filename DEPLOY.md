@@ -16,7 +16,14 @@ need to switch Pages on.
 
 1. Go to **Settings → Pages** in this repository on GitHub.
 2. Under **Build and deployment → Source**, choose **GitHub Actions**.
-3. That's it. The next push to `main` publishes the site.
+3. Go to **Actions → Deploy site → Run workflow** to publish immediately.
+   After this, every push to `main` republishes automatically.
+
+> **Until step 2 is done, the Deploy site workflow fails** — on the
+> `Run actions/configure-pages` step, with a message about not being able to
+> find the Pages site. That is expected rather than a problem with the
+> workflow: the action asks GitHub where to deploy, and nowhere has been set
+> up yet. The step before it, which checks the data bundle, passes.
 
 Your URL will be:
 
@@ -139,8 +146,9 @@ the `web` directory rather than the repository root.
 **The site deploys but shows old numbers.** The data bundle is stale. Rebuild
 it with `python scripts/build_web_data.py` and commit.
 
-**The GitHub Action fails with a permissions error.** Pages is not enabled, or
-its source is not set to "GitHub Actions". See option 1, step 2.
+**The Deploy site action fails on `Run actions/configure-pages`.** Pages is not
+enabled, or its source is not set to "GitHub Actions". See option 1, step 2.
+This is the expected state of a fresh clone.
 
 **Everything works locally but 404s on GitHub Pages.** The site is served from
 a subdirectory (`/uplift-modelling-decision/`) rather than the domain root.
