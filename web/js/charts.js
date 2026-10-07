@@ -419,7 +419,10 @@ export function lines(series, { xTitle: axisTitle, yTitle, formatY, formatX, mar
   node.append(yAxis(y, { format: fmtY, title: yTitle, left }));
 
   const xGrid = svg("g", { class: "grid" });
-  for (const value of ticks(x.domain)) {
+  // A higher tick target than the default: on a 0-100% axis the default lands
+  // on a step of 50 and labels only the midpoint and the end, which reads as a
+  // chart with no x-axis at all.
+  for (const value of ticks(x.domain, 8)) {
     xGrid.append(
       svg("text", {
         x: x(value),
@@ -595,9 +598,12 @@ export function distributionStrip({ band, reference, points = [], formatX, label
   });
   attachTooltip(real, labels.reference, [["Score", (formatX ?? ((v) => v.toFixed(1)))(reference)]]);
   node.append(real);
+  // Clamp the label inside the plot. The reference often sits at the extreme
+  // right -- that is the good outcome -- and a centred label there overflows
+  // the frame, which clips it.
   node.append(
     svg("text", {
-      x: x(reference),
+      x: Math.min(Math.max(x(reference), left + 60), W - 70),
       y: 24,
       "text-anchor": "middle",
       fill: colours.s1,

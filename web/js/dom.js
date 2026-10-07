@@ -26,11 +26,26 @@ export function el(tag, attrs = {}, children = []) {
       node.addEventListener(key.slice(2).toLowerCase(), value);
     } else node.setAttribute(key, value === true ? "" : String(value));
   }
-  for (const child of [].concat(children)) {
-    if (child === null || child === undefined || child === false) continue;
+  for (const child of flatten(children)) {
     node.append(child instanceof Node ? child : document.createTextNode(String(child)));
   }
   return node;
+}
+
+/**
+ * Flatten nested child arrays and drop the empty slots.
+ *
+ * This has to recurse, not just flatten one level. Page sections are built as
+ * functions that return arrays of nodes, and those get composed into the
+ * page's own array — so `[heading, section(), other]` arrives with an array
+ * sitting inside it. One level of flattening leaves that nested array intact,
+ * `append` stringifies it, and the page renders the literal text
+ * "[object HTMLDivElement],[object HTMLDivElement]". Ask how I know.
+ */
+function flatten(children) {
+  return [children]
+    .flat(Infinity)
+    .filter((child) => child !== null && child !== undefined && child !== false && child !== "");
 }
 
 /** Create an SVG element. SVG needs its own namespace or nothing renders. */
@@ -102,11 +117,17 @@ export function prose(markdown) {
   return wrapper;
 }
 
-/** Inline formatting: bold, code, links. Everything else is escaped. */
+/**
+ * Inline formatting: code, bold, italics, links. Everything else is escaped.
+ *
+ * Order matters. Bold has to run before italics, or `**bold**` gets eaten by
+ * the single-asterisk rule and renders as `<em>*bold*</em>`.
+ */
 function inline(text) {
   return escapeHtml(text)
     .replace(/`([^`]+)`/g, "<code>$1</code>")
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*\n]+)\*/g, "<em>$1</em>")
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 }
 
@@ -320,7 +341,7 @@ export function numberField({ label, min, max, step, value, help, onInput }) {
   ]);
 }
 
-/** Replace a node's children in one go. */
+/** Replace a node's children in one go, flattening nested arrays. */
 export function replaceChildren(node, children) {
-  node.replaceChildren(...[].concat(children).filter(Boolean));
+  node.replaceChildren(...flatten(children));
 }

@@ -830,9 +830,28 @@ select {
   color: var(--warning);
 }
 
+#glossary-box {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+#glossary-box .details-body {
+  padding-left: 0.9rem;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+
+.glossary {
+  margin: 0;
+}
+
 .glossary dt {
   font-weight: 650;
   margin-top: 0.8rem;
+}
+
+.glossary dt:first-child {
+  margin-top: 0;
 }
 
 .glossary dd {

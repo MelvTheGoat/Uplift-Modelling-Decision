@@ -108,11 +108,18 @@ export const STUDY_BLURBS = {
   womens_visit: "Site visits for the women's campaign.",
 };
 
-/** Plain-English display names for the four models. */
+/**
+ * Plain-English display names for the four models.
+ *
+ * Each ends in "method" rather than being a bare noun phrase, because these
+ * names appear at the start of sentences. "Two models flagged 7,916 customers"
+ * reads as a count of models; "Two-model method flagged 7,916 customers" does
+ * not.
+ */
 export const MODEL_LABELS = {
-  "s-learner": "Single model",
-  "t-learner": "Two models",
-  "x-learner": "Cross-fitted",
+  "s-learner": "Single-model method",
+  "t-learner": "Two-model method",
+  "x-learner": "Cross-fitted method",
   "causal-forest": "Causal forest",
 };
 
