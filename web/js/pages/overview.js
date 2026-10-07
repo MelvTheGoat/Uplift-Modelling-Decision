@@ -22,6 +22,19 @@ export function render(data) {
   return [
     el("h1", { text: "Who should get the email?" }),
     el("p", { class: "lede", text: STRAPLINE }),
+
+    note(
+      "info",
+      `
+**Got a campaign of your own?** [Upload the CSV](#/analyse) and get this whole
+analysis run on your data — did it work, was the split fair, what your test
+could have detected, and if you have model scores, whether your targeting is
+worth anything.
+
+It runs in your browser. The file is never uploaded anywhere.
+      `,
+    ),
+
     prose(THE_PROBLEM),
 
     el("h2", { text: "The short answer" }),
@@ -147,6 +160,7 @@ cannot support.
 
     el("h2", { text: "Where to go next" }),
     el("ul", { class: "next-links" }, [
+      link("#/analyse", "★ Analyse your own campaign", "Upload a CSV and get all of this run on your data, in your browser."),
       link("#/did-it-work", "Did the email work?", "The simple before-and-after comparison, for every campaign."),
       link("#/targeting", "Can we pick who to email?", "Four models, scored honestly, and what each one is doing."),
       link("#/money", "What is it worth?", "Move the email cost and the margin, and watch the recommendation change."),

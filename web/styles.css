@@ -208,6 +208,19 @@ svg {
   font-weight: 600;
 }
 
+/* The tool, separated from the numbered walkthrough above it. */
+.nav a.nav-tool {
+  margin-top: 0.5rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.nav a.nav-tool .nav-step {
+  color: var(--series-1);
+}
+
 .nav-step {
   flex: none;
   width: 1.2rem;
@@ -221,8 +234,22 @@ svg {
   padding: 2.5rem clamp(1rem, 4vw, 3rem) 6rem;
 }
 
+/*
+ * Two widths, deliberately different.
+ *
+ * The column is centred and capped at 62rem: wide enough that charts, tables
+ * and control panels get room to breathe on a large screen, instead of sitting
+ * in a narrow strip with half the window empty beside them.
+ *
+ * Running text is capped much tighter (see `p, ul, ol` below). Long lines are
+ * genuinely harder to read -- the eye loses its place on the return sweep --
+ * so prose stays near 68 characters while the figures beside it use the full
+ * width. That is why paragraphs do not reach the right-hand edge on a wide
+ * screen: it is a reading-comfort cap, not leftover space.
+ */
 .content {
-  max-width: 76ch;
+  max-width: 62rem;
+  margin-inline: auto;
 }
 
 /* --------------------------------------------------------------- topbar */

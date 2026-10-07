@@ -13,6 +13,12 @@ import { GLOSSARY } from "./copy.js";
 
 const PAGES = [
   { id: "", title: "Start here", module: () => import("./pages/overview.js") },
+  {
+    id: "analyse",
+    title: "Analyse your own campaign",
+    module: () => import("./pages/analyse.js"),
+    tool: true,
+  },
   { id: "did-it-work", title: "Did the email work?", module: () => import("./pages/didItWork.js") },
   { id: "targeting", title: "Can we pick who to email?", module: () => import("./pages/targeting.js") },
   { id: "money", title: "What is it worth?", module: () => import("./pages/money.js") },
@@ -40,18 +46,30 @@ async function loadData() {
 /** Build the sidebar links. */
 function renderNav(activeId) {
   const nav = document.getElementById("nav");
+  // The tool sits outside the numbered walkthrough. Numbering it as a step
+  // would imply it comes after reading the study, when it is the thing most
+  // visitors came for and should be reachable without reading anything.
+  let step = 0;
   replaceChildren(
     nav,
-    PAGES.map((page, index) =>
-      el(
+    PAGES.map((page) => {
+      let marker;
+      if (page.tool) marker = "★";
+      else if (page.id === "") marker = "—";
+      else {
+        step += 1;
+        marker = String(step);
+      }
+      return el(
         "a",
         {
           href: `#/${page.id}`,
+          class: page.tool ? "nav-tool" : null,
           "aria-current": page.id === activeId ? "page" : null,
         },
-        [el("span", { class: "nav-step", text: index === 0 ? "—" : String(index) }), page.title],
-      ),
-    ),
+        [el("span", { class: "nav-step", text: marker }), page.title],
+      );
+    }),
   );
 }
 

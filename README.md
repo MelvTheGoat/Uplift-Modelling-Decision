@@ -15,10 +15,15 @@ for.
 This repository works through that question on a real randomised campaign, and
 is honest about where the answer runs out.
 
-**→ [Read it as a website](https://melvthegoat.github.io/Uplift-Modelling-Decision/)** —
+**→ [Analyse your own campaign](https://melvthegoat.github.io/Uplift-Modelling-Decision/#/analyse)** —
+upload a CSV and get this entire analysis run on your data. It runs in your
+browser; the file is never uploaded anywhere. There is a sample file built in
+if you want to see it work first.
+
+**→ [Read the study](https://melvthegoat.github.io/Uplift-Modelling-Decision/)** —
 plain English, interactive, no statistics background needed.
 
-**→ [Read it as a memo](MEMO.md)** — two pages, for someone who has to make the
+**→ [Read the memo](MEMO.md)** — two pages, for someone who has to make the
 decision.
 
 ---
@@ -96,8 +101,30 @@ until the email arrives.
 | `src/experiment.py` | How many customers a test needs, and how to need fewer. |
 | `src/robustness.py` | The four attempts to break the finding. |
 | `src/cli.py` | Runs the whole study and writes `results/`. |
+| `web/js/analysis.js` | The analysis engine, in the browser. A port of the Python below, held to it by a parity test. |
 | `scripts/build_web_data.py` | Packs `results/` into one file for the website. |
-| `tests/` | 141 tests, all on invented data — no network, no dataset download. |
+| `tests/` | 150 tests, all on invented data — no network, no dataset download. |
+
+### The tool
+
+The site is not only a write-up. **Analyse your own campaign** takes a CSV of
+any randomised A/B campaign and runs the whole analysis on it:
+
+- Did it work — rates, the gap, an honest range, a fluke probability.
+- **What your test could have detected** — the check that separates "it does
+  not work" from "we could not tell". Most readouts skip this one.
+- Whether the split was actually fair, on whatever characteristics you map.
+- If you supply uplift scores from a model: ranking quality with a resampled
+  range, the decile table, the profit frontier against random targeting, the
+  shuffle test, and a measured verdict on whoever your model wants suppressed.
+
+Column names do not have to match anything — you map them with dropdowns, and
+pick which value means "got the campaign". Everything runs in the browser.
+
+`web/js/analysis.js` is a port of `src/evaluation.py`, `src/policy.py` and
+`src/naive.py`. Two implementations of one formula is a bug waiting to happen,
+so `tests/test_web_analysis_parity.py` generates a campaign, runs both, and
+fails if any number disagrees.
 
 ---
 
@@ -146,7 +173,7 @@ putting it online.
 ### Checks
 
 ```bash
-pytest -q            # 141 tests
+pytest -q            # 150 tests
 ruff check . && ruff format --check .
 mypy                 # strict mode
 ```

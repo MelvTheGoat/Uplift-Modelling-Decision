@@ -128,9 +128,14 @@ No. The whole site is well under a megabyte:
 | | |
 |---|---|
 | `web/data.json` | 116 KB — every number in the study |
-| JavaScript | 152 KB, uncompressed, no dependencies |
-| CSS | 17 KB |
+| `web/sample-campaign.csv` | 504 KB — the demo file, fetched only if asked for |
+| JavaScript | ~190 KB, uncompressed, no dependencies |
+| CSS | 18 KB |
 | HTML | 3 KB |
+
+Under a megabyte all in, and the sample file is the largest piece — it is
+fetched on demand, so a visitor who never clicks "load a sample" never
+downloads it.
 
 All free tiers listed above cover this comfortably. There is no server process,
 no database, and nothing that runs when nobody is looking at the page, so there
