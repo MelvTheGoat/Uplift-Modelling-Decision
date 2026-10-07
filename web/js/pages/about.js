@@ -126,8 +126,8 @@ Everything is open source, runs locally, and needs no paid service or API key.
     `),
     el("pre", {}, [
       el("code", {
-        text: `git clone https://github.com/MelvTheGoat/uplift-modelling-decision
-cd uplift-modelling-decision
+        text: `git clone https://github.com/MelvTheGoat/Uplift-Modelling-Decision
+cd Uplift-Modelling-Decision
 
 python -m venv .venv
 source .venv/bin/activate        # Windows: .\\.venv\\Scripts\\Activate.ps1

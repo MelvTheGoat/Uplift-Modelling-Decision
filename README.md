@@ -15,7 +15,7 @@ for.
 This repository works through that question on a real randomised campaign, and
 is honest about where the answer runs out.
 
-**→ [Read it as a website](https://melvthegoat.github.io/uplift-modelling-decision/)** —
+**→ [Read it as a website](https://melvthegoat.github.io/Uplift-Modelling-Decision/)** —
 plain English, interactive, no statistics background needed.
 
 **→ [Read it as a memo](MEMO.md)** — two pages, for someone who has to make the

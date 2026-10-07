@@ -28,8 +28,13 @@ need to switch Pages on.
 Your URL will be:
 
 ```
-https://melvthegoat.github.io/uplift-modelling-decision/
+https://melvthegoat.github.io/Uplift-Modelling-Decision/
 ```
+
+**The capitals matter.** GitHub repository names are case-insensitive when you
+browse to them, so `github.com/melvthegoat/uplift-modelling-decision` works
+fine — but the Pages path is case-*sensitive* and the all-lowercase version
+returns a flat 404 with no hint as to why. Copy the URL exactly as above.
 
 To publish without waiting for a push, go to **Actions → Deploy site → Run
 workflow**.
