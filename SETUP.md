@@ -41,8 +41,8 @@ git commit -m "Test suite (136 tests, synthetic data only) and CI workflow"
 git add results
 git commit -m "Generated results artefacts"
 
-git add MEMO.md METHODS.md README.md CODE_WALKTHROUGH.md SETUP.md
-git commit -m "Decision memo, methods, README and code walkthrough"
+git add MEMO.md METHODS.md README.md SETUP.md
+git commit -m "Decision memo, methods and README"
 ```
 
 ## About the existing repo
@@ -75,5 +75,5 @@ ruff check . ; ruff format --check .
 mypy
 ```
 
-All three are clean. Start reading at `MEMO.md`; `CODE_WALKTHROUGH.md` explains how
-every piece was built and why.
+All three are clean. Start reading at `MEMO.md`; `METHODS.md` explains what each
+step does and why that choice was made.

@@ -39,8 +39,8 @@ packages = ["src"]
 line-length = 100
 target-version = "py310"
 # Markdown is excluded because ruff formats fenced Python blocks inside it, and
-# CODE_WALKTHROUGH.md quotes real source verbatim — reformatting those quotes
-# makes them stop matching the files they cite.
+# the prose files quote real source verbatim — reformatting those quotes makes
+# them stop matching the files they cite.
 extend-exclude = [".venv", "*.md"]
 
 [tool.ruff.lint]
