@@ -1,0 +1,79 @@
+name: Deploy site
+
+# Publishes `web/` to GitHub Pages.
+#
+# The site is static — no build step, no bundler, no npm. This workflow does
+# two things: check that the committed `web/data.json` still matches what
+# `results/` would produce, then upload the directory. The check matters
+# because the bundle is a build artefact that is committed; without it, someone
+# can re-run the study, commit new results, and silently ship a site showing
+# the old numbers.
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "web/**"
+      - "results/**"
+      - "scripts/build_web_data.py"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+# Read the repo, write the Pages deployment, and mint the token Pages needs.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time. `cancel-in-progress: false` because cancelling a
+# half-finished deployment can leave the live site in a broken state; queued
+# runs simply wait.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: check the data bundle is current
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+
+      - name: Rebuild the bundle and diff it against the committed one
+        run: |
+          python scripts/build_web_data.py --output /tmp/data.json
+          if ! diff -q /tmp/data.json web/data.json > /dev/null; then
+            echo "::error::web/data.json is stale. Run 'python scripts/build_web_data.py' and commit the result."
+            diff <(head -c 2000 /tmp/data.json) <(head -c 2000 web/data.json) || true
+            exit 1
+          fi
+          echo "web/data.json matches results/"
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+
+  deploy:
+    name: publish
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
